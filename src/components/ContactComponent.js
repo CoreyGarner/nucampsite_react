@@ -148,10 +148,7 @@ render() {
                                             </FormGroup>
                                         </Form>
                                     </div>
-                                </div>
-                        );
-                    }
-                }
+                                </div>                    
             </div>
         );
     }
