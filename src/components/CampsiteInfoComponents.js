@@ -24,12 +24,12 @@ class CommentForm extends Component {
             isModalOpen: !this.state.isModalOpen
         });
     }
-    
-    formAlert (values) {
-        console.log("Current state is: " + JSON.stringify(values));
-        alert("Current state is: " + JSON.stringify(values));
-    }
 
+    handleSubmit(values) {
+        this.toggleModal();
+        this.props.addComment(this.props.campsiteId, values.rating, values.author, values.text);
+    }
+    
     render() {
 
         return (
@@ -40,7 +40,7 @@ class CommentForm extends Component {
                     <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
                     <ModalBody>
 
-                        <LocalForm onSubmit={values => this.formAlert(values)}>
+                        <LocalForm onSubmit={values => this.handleSubmit(values)}>
 
                             <Row className="form-group">
                                 
@@ -123,7 +123,7 @@ function RenderCampsite({ campsite }) {
     );
 }
 
-function RenderComments({ comments }) {
+function RenderComments({comments, addComment, campsiteId}) {
     if (comments) {
         return (
             <div className="col-md-5 m-1">
@@ -136,7 +136,7 @@ function RenderComments({ comments }) {
                         </div>
                     );
                 })}
-                <CommentForm />
+                <CommentForm  campsiteId={campsiteId} addComment={addComment} />
 
 
 
@@ -165,7 +165,11 @@ function CampsiteInfo(props) {
                 </div>
                 <div className="row">
                     <RenderCampsite campsite={props.campsite} />
-                    <RenderComments comments={props.comments} />
+                    <RenderComments 
+                    comments={props.comments}
+                    addComment={props.addComment}
+                    campsiteId={props.campsite.id}
+                />
                 </div>
 
             </div>
